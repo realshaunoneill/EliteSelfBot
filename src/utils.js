@@ -11,13 +11,10 @@ exports.randomColor = function () {
 
 const randomFooter = function () {
     return exports.randomSelection(
-        'just add water!',
-        'Powered by squirrels!',
-        'codeisluvcodeislife',
-        'Where did you get that?',
-        'WHAT DID YOU BREAK!?',
-        'D-D-D-DROP THE BASS',
-        'Eat, Sleep, Dubstep'
+        'I fix memory leaks by restarting!',
+        'Kai: Im a grumpy old man',
+        'I do all my bots in piethawn',
+        'CSS and vb are the best, not this Jshit crap'
     );
 };
 
