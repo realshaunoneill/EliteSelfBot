@@ -56,7 +56,6 @@ bot.on('message', msg => {
         msg.edit('', {
             embed: utils.embed('Reload', `Successfully reloaded all the plugins, currently ${commands.length} plugins loaded!`)
         }).then(m => m.delete(10000));
-    };
 
     } else {
         var maybe = didYouMean(command, Object.keys(commands), {
