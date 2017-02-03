@@ -64,9 +64,9 @@ function getInfo(json) {
     return `**${json.full_name}**
 \t**Description:** _${json.description || 'None provided'}_
 \t**Owner:** [${json.owner.login}](${json.owner.html_url})
-\t**Primary Language:** \`${json.language}\` 
-\t:house:  [Home page](${json.html_url})  :small_red_triangle_down:  [Downloads](${json.html_url}/releases)  :exclamation:  [Issues](${json.html_url}/issues)
-\t:negative_squared_cross_mark:  \`${json.open_issues_count}\` open issues  :star:  \`${json.stargazers_count}\` stargazers  :eyes:  \`${json.subscribers_count || json.watchers_count}\` watchers
+\t**Primary Language:** \`${json.language}\`\n 
+\t:house:  [Home page](${json.html_url})  :small_red_triangle_down:  [Downloads](${json.html_url}/releases)  :exclamation:  [Issues](${json.html_url}/issues)\n
+\t:negative_squared_cross_mark:  \`${json.open_issues_count}\` open issues  :star:  \`${json.stargazers_count}\` stargazers  :eyes:  \`${json.subscribers_count || json.watchers_count}\` watchers\n
 \tDo \`git clone ${json.clone_url}\` to clone this repository
 `;
 }
