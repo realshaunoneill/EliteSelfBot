@@ -66,15 +66,11 @@ bot.on('message', msg => {
     }
 });
 
-bot.on('error', console.error);
-bot.on('warn', console.warn);
-bot.on('disconnect', console.warn);
-
 bot.login(config.botToken);
 
 process.on('uncaughtException', (err) => {
     let errorMsg = err.stack.replace(new RegExp(`${__dirname}\/`, 'g'), './');
-    console.error(errorMsg);
+    console.error("Uncaught Exception" + errorMsg);
 });
 
 process.on('unhandledRejection', err => {
