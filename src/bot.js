@@ -5,6 +5,7 @@ const didYouMean = require('didyoumean2');
 
 const bot = exports.client = new Discord.Client();
 const config = bot.config = require('./config.json');
+const utils = require('./utils');
 
 const commands = bot.commands = {};
 
