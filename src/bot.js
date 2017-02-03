@@ -15,15 +15,11 @@ bot.on('ready', () => {
 
     console.log(`EliteSelfBot: Connected to ${bot.guilds.size} servers, for a total of ${bot.channels.size} channels and ${bot.users.size} users.`);
 
-    fs.readdirSync(__dirname + '/commands/').forEach(file => {
-        if (file.startsWith('_') || !file.endsWith('.js')) return;
-        var command = require(`./commands/${file}`);
-        if (typeof command.run !== 'function' || typeof command.info !== 'object' || typeof command.info.name !== 'string') {
-            console.log(`Invalid command file: ${file}`);
-            return;
-        }
-        commands[command.info.name] = command;
-    });
+    delete bot.user.email;
+    delete bot.user.verified;
+
+    loadPlugins();
+
     console.log(chalk.green('\u2713') + ' Bot loaded');
 });
 
@@ -43,7 +39,9 @@ bot.on('message', msg => {
     const args = msg.content.split(' ').splice(1);
 
     if (commands[command]) {
-        msg.editEmbed = (embed) => { msg.edit('', { embed }); };
+        msg.editEmbed = (embed) => {
+            msg.edit('', {embed});
+        };
 
         try {
             commands[command].run(bot, msg, args);
@@ -51,6 +49,15 @@ bot.on('message', msg => {
             msg.edit(msg.author + `Error while executing command\n${e}`).then(m => m.delete(5000));
             console.error(e);
         }
+
+    }else if (command == 'reload'){
+        loadPlugins();
+
+        msg.edit('', {
+            embed: utils.embed('Reload', `Successfully reloaded all the plugins, currently ${commands.length} plugins loaded!`)
+        }).then(m => m.delete(10000));
+    };
+
     } else {
         var maybe = didYouMean(command, Object.keys(commands), {
             threshold: 5,
@@ -76,3 +83,15 @@ process.on('uncaughtException', (err) => {
 process.on('unhandledRejection', err => {
     console.error('Uncaught Promise Error: \n' + err.stack);
 });
+
+function loadPlugins() {
+    fs.readdirSync(__dirname + '/commands/').forEach(file => {
+        if (file.startsWith('_') || !file.endsWith('.js')) return;
+        var command = require(`./commands/${file}`);
+        if (typeof command.run !== 'function' || typeof command.info !== 'object' || typeof command.info.name !== 'string') {
+            console.log(`Invalid command file: ${file}`);
+            return;
+        }
+        commands[command.info.name] = command;
+    });
+}
