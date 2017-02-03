@@ -16,8 +16,8 @@ exports.run = function (bot, msg, args) {
         }
 
         msg.edit('', {
-            embed: utils.embed('Commands', 'This message will dissappear in 10 seconds.', fields, { inline: true })
-        }).then(m => m.delete(10000));
+            embed: utils.embed('Commands', 'This message will dissappear in 30 seconds.', fields, { inline: true })
+        }).then(m => m.delete(30000));
 
         return;
     }
@@ -27,8 +27,8 @@ exports.run = function (bot, msg, args) {
         msg.edit(`:no_entry_sign: The command '${args[0]}' does not exist!`).then(m => m.delete(2000));
     } else {
         msg.edit('', {
-            embed: utils.embed('', 'This message will dissappear in 10 seconds.', [getHelp(bot, command)])
-        }).then(m => m.delete(10000));
+            embed: utils.embed('', 'This message will dissappear in 30 seconds.', [getHelp(bot, command)])
+        }).then(m => m.delete(30000));
     }
 };
 
