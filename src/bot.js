@@ -15,9 +15,6 @@ bot.on('ready', () => {
 
     console.log(`EliteSelfBot: Connected to ${bot.guilds.size} servers, for a total of ${bot.channels.size} channels and ${bot.users.size} users.`);
 
-    delete bot.user.email;
-    delete bot.user.verified;
-
     fs.readdirSync(__dirname + '/commands/').forEach(file => {
         if (file.startsWith('_') || !file.endsWith('.js')) return;
         var command = require(`./commands/${file}`);
