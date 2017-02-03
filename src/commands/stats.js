@@ -2,7 +2,7 @@ const utils = require('../utils');
 
 exports.run = function (bot, msg) {
     msg.edit('', {
-        embed: utils.embed('SharpBot Stats', `
+        embed: utils.embed('EliteSelfBot Stats', `
 This message will dissappear in 10 seconds.
 **Servers:** ${bot.guilds.size}
 **Users:** ${bot.users.size}

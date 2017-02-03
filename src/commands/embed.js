@@ -7,7 +7,7 @@ exports.run = function (bot, msg, args) {
     }
 
     msg.editEmbed(
-        utils.embed('', args.join(' '), [], { footer: false })
+        utils.embed(bot.user.username, args.join(' '), [], { footer: false, url: "https://www.shaunoneill.me/"})
     );
 };
 
