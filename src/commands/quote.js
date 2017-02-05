@@ -2,7 +2,7 @@ const utils = require('../utils');
 
 exports.run = function (bot, msg, args) {
     if (args.length < 1) {
-        msg.edit(':no_entry_sign: You must specify some text!').then(m => m.delete(2000));
+        msg.edit(':no_entry_sign: You must specify a message id!').then(m => m.delete(2000));
         return;
     }
 
@@ -11,7 +11,7 @@ exports.run = function (bot, msg, args) {
 
     if (message) {
         msg.editEmbed(
-            utils.embed(message.author.username, message.content, [], {
+            utils.embed(bot.user.username, message.content, [], {
                 footer: true,
                 url: "https://www.shaunoneill.me/",
                 image: message.author.avatarURL
