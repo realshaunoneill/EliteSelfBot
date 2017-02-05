@@ -9,7 +9,7 @@ exports.run = function (bot, msg, args) {
     msg.editEmbed(
         utils.embed(bot.user.username, args.join(' '), [], {
             footer: false, url: "https://www.shaunoneill.me/",
-            image: bot.user.avatarURL
+            thumbnail: bot.user.avatarURL
         })
     );
 };

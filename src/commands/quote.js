@@ -14,7 +14,7 @@ exports.run = function (bot, msg, args) {
             utils.embed(bot.user.username, message.content, [], {
                 footer: true,
                 url: "https://www.shaunoneill.me/",
-                image: message.user.avatarURL
+                thumbnail: bot.user.avatarURL
             }).addField("Date", message.createdAt.toDateString())
         );
     }else {

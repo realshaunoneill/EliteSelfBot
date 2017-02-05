@@ -29,6 +29,7 @@ exports.embed = (title, description = '', fields = [], options = {}) => {
 
     return new RichEmbed({ fields, video: options.video || url })
         .setTitle(title)
+        .setThumbnail(options.thumbnail)
         .setColor(color)
         .setDescription(description)
         .setImage(options.image || url)
