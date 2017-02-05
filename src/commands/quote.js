@@ -7,7 +7,9 @@ exports.run = function (bot, msg, args) {
     }
 
     let messageId = args[0];
-    let messageObj = msg.channel.fetchMessage(messageId).then(function (message) {
+    let message = msg.channel.messages.get(messageId);
+
+    if (message){
         msg.editEmbed(
             utils.embed(message.author.username, message.content, [], {
                 footer: true,
@@ -15,10 +17,9 @@ exports.run = function (bot, msg, args) {
                 thumbnail: message.author.avatarURL
             }).addField("Date", message.createdAt.toDateString())
         );
-    }).catch(function (err) {
+    }else {
         msg.edit(':no_entry_sign: No message found!').then(m => m.delete(2000));
-        console.log(err)
-    });
+    }
 };
 
 exports.info = {
