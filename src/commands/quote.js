@@ -17,6 +17,7 @@ exports.run = function (bot, msg, args) {
         );
     }).catch(function (err) {
         msg.edit(':no_entry_sign: No message found!').then(m => m.delete(2000));
+        console.log(err)
     });
 };
 
