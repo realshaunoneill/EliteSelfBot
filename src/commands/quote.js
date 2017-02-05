@@ -7,7 +7,7 @@ exports.run = function (bot, msg, args) {
     }
 
     let messageId = args[0];
-    let message = msg.channel.messages.get(messageId);
+    let message = msg.channel.fetchMessage(messageId);
 
     if (message) {
         msg.editEmbed(
