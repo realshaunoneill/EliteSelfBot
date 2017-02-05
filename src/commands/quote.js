@@ -7,19 +7,21 @@ exports.run = function (bot, msg, args) {
     }
 
     let messageId = args[0];
-    let message = msg.channel.messages.get(messageId);
-
-    if (message){
-        msg.editEmbed(
-            utils.embed(message.author.username, message.content, [], {
-                footer: true,
-                url: "https://www.shaunoneill.me/",
-                thumbnail: message.author.avatarURL
-            }).addField("Date", message.createdAt.toDateString())
-        );
-    }else {
-        msg.edit(':no_entry_sign: No message found!').then(m => m.delete(2000));
-    }
+    let message = msg.channel.fetchMessages().then(function (messages) {
+        let message = messages.get(messageId);
+        if (message){
+            msg.editEmbed(
+                utils.embed(message.author.username, message.content, [], {
+                    url: "https://www.shaunoneill.me/",
+                    thumbnail: message.author.avatarURL
+                }).setFooter("Date: " + message.createdAt.toDateString())
+            );
+        }else {
+            msg.edit(':no_entry_sign: No message found!').then(m => m.delete(2000));
+        }
+    }).catch(function (err) {
+        console.error(err)
+    });
 };
 
 exports.info = {
