@@ -16,7 +16,7 @@ exports.run = function (bot, msg, args) {
         }
 
         msg.edit('', {
-            embed: utils.embed('Commands', 'This message will dissappear in 30 seconds.', fields, { inline: true })
+            embed: utils.embed('Commands', 'This message will dissappear in 30 seconds.', fields, { inline: true }).setFooter("Created by XeliteXirish!")
         }).then(m => m.delete(30000));
 
         return;
