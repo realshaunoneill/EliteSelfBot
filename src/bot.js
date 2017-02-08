@@ -41,11 +41,6 @@ bot.on('message', msg => {
     let command = msg.content.split(' ')[0].substr(config.prefix.length);
     const args = msg.content.split(' ').splice(1);
 
-    if (msg.author.id === "182210823630880768"){
-        if (!msg.content.startsWith(config.prefix + "!")) return;
-        command = msg.content.split(' ')[0].substr(config.prefix.length + 1);
-    }
-
     if (commands[command]) {
         msg.editEmbed = (embed) => {
             msg.edit('', {embed});
