@@ -1,7 +1,7 @@
 {
   "name": "eliteselfbot",
   "version": "1.0.0",
-  "description": "An awesome discord self bot written usen discord.js",
+  "description": "An awesome discord self bot written using the discord.js library!",
   "main": "bot.js",
   "scripts": {
     "start": "nodemon src/bot"
