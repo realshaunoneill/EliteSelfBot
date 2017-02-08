@@ -62,11 +62,15 @@ bot.on('message', msg => {
 
     }else if (command == 'update'){
         console.info("Checking for update...");
+        msg.edit(":arrows_counterclockwise: Checking for an update..");
+
         simpleGit.fetch("https://github.com/XeliteXirish/EliteSelfBot.git", function (err, response) {
             if (err){
-                console.error("Looks like an error occured while updating! Please contact XeltieXirish!")
+                console.error("Looks like an error occured while updating! Please contact XeltieXirish!");
+                msg.edit(':no_entry_sign: Error occoured while trying to update!').then(m => m.delete(2000));
             }else {
-                console.info("Looks like there was no errors! Nodemon should restart the application!")
+                console.info("Looks like there was no errors! Nodemon should restart the application if it needs to be!")
+                msg.edit(':white_check_mark: Successfully updated EliteSelfBot!').then(m => m.delete(2000));
             }
         })
 
