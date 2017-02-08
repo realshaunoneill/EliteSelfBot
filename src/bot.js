@@ -69,7 +69,7 @@ bot.on('message', msg => {
                 console.error("Looks like an error occured while updating! Please contact XeltieXirish!");
                 msg.edit(':no_entry_sign: Error occoured while trying to update!').then(m => m.delete(2000));
             }else {
-                console.info("Looks like there was no errors! Nodemon should restart the application if it needs to be!")
+                console.info("Looks like there was no errors! Nodemon should restart the application if needed!")
                 msg.edit(':white_check_mark: Successfully updated EliteSelfBot!').then(m => m.delete(2000));
             }
         })
