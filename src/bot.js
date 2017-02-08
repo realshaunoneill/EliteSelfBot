@@ -1,7 +1,9 @@
 const Discord = require('discord.js');
 const fs = require('fs');
+const nodemon = require('nodemon');
 const chalk = require('chalk');
 const didYouMean = require('didyoumean2');
+const simpleGit = require('simple-git')( __dirname + "/../");
 
 const bot = exports.client = new Discord.Client();
 const config = bot.config = require('./config.json');
@@ -51,12 +53,22 @@ bot.on('message', msg => {
             console.error(e);
         }
 
-    }else if (command == 'reload'){
+    }else if (command == 'reload') {
         loadPlugins();
 
         msg.edit('', {
             embed: utils.embed('Reload', `Successfully reloaded all the plugins, currently ${commands.length} plugins loaded!`)
         }).then(m => m.delete(10000));
+
+    }else if (command == 'update'){
+        console.info("Checking for update...");
+        simpleGit.fetch("https://github.com/XeliteXirish/EliteSelfBot.git", function (err, response) {
+            if (err){
+                console.error("Looks like an error occured while updating! Please contact XeltieXirish!")
+            }else {
+                console.info("Looks like there was no errors! Nodemon should restart the application!")
+            }
+        })
 
     } else {
         var maybe = didYouMean(command, Object.keys(commands), {
