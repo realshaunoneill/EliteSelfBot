@@ -24,6 +24,11 @@ bot.on('ready', () => {
     loadPlugins();
 
     console.log(chalk.green('\u2713') + ' Bot loaded');
+
+    setInterval(function () {
+        console.log("Automatically checking for updates!")
+        loadPlugins();
+    }, 43200000)
 });
 
 bot.on('message', msg => {
