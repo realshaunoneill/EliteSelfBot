@@ -57,7 +57,7 @@ bot.on('message', msg => {
         loadPlugins();
 
         msg.edit('', {
-            embed: utils.embed('Reload', `Successfully reloaded all the plugins, currently ${commands.length} plugins loaded!`)
+            embed: utils.embed('Reload', `Successfully reloaded all the plugins!`)
         }).then(m => m.delete(10000));
 
     }else if (command == 'update'){
