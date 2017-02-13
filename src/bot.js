@@ -36,7 +36,7 @@ bot.on('message', msg => {
         console.log(`[MENTION] ${msg.author.username} (${msg.author.id}) on ${msg.guild.name}/${msg.channel.name}:\n${msg.content}`);
     }
 
-    if (msg.author.id !== bot.user.id && msg.author.id !== "182210823630880768") {
+    if (msg.author.id !== bot.user.id) {
         if (msg.isMentioned(bot.user.id) && bot.afk) msg.reply(`${bot.user.username} is \u200bAFK`).then(m => m.delete(5000));
         return;
     }
