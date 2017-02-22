@@ -11,7 +11,7 @@ const botSettings = bot.botSettings = require('./botSettings.json');
 const utils = require('./utils');
 
 const commands = bot.commands = {};
-const needsSetup = [];
+const needsSetup = bot.setupPlugins = [];
 
 const db = bot.db = require('sqlite');
 db.open('./selfbot.sqlite');
