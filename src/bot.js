@@ -7,9 +7,11 @@ const simpleGit = require('simple-git')( __dirname + "/../");
 
 const bot = exports.client = new Discord.Client();
 const config = bot.config = require('./config.json');
+const botSettings = bot.botSettings = require('./botSettings.json');
 const utils = require('./utils');
 
 const commands = bot.commands = {};
+const needsSetup = [];
 
 const db = bot.db = require('sqlite');
 db.open('./selfbot.sqlite');
@@ -31,6 +33,12 @@ bot.on('ready', () => {
             console.error("Error while updating bot, please submit an error report, Error: " + err.stack);
         });
     }, 43200000)
+
+    needsSetup.forEach((plugin) => {
+        if (typeof plugin.setup === 'function'){
+            plugin.setup(bot);
+        }
+    })
 });
 
 bot.on('message', msg => {
@@ -110,6 +118,10 @@ function loadPlugins() {
             return;
         }
         commands[command.info.name] = command;
+
+        if (typeof command.setup === 'function'){
+            needsSetup.push(command);
+        }
     });
 }
 
