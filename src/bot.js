@@ -27,7 +27,9 @@ bot.on('ready', () => {
 
     setInterval(function () {
         console.log("Automatically checking for updates!")
-        loadPlugins();
+        updateBot().catch((err) => {
+            console.error("Error while updating bot, please submit an error report, Error: " + err.stack);
+        });
     }, 43200000)
 });
 
@@ -66,18 +68,12 @@ bot.on('message', msg => {
         }).then(m => m.delete(10000));
 
     }else if (command == 'update'){
-        console.info("Checking for update...");
         msg.edit(":arrows_counterclockwise: Checking for an update..");
-
-        simpleGit.pull("https://github.com/XeliteXirish/EliteSelfBot.git", function (err, response) {
-            if (err){
-                console.error("Looks like an error occured while updating! Please contact XeltieXirish!");
-                msg.edit(':no_entry_sign: Error occoured while trying to update!').then(m => m.delete(2000));
-            }else {
-                console.info("Looks like there was no errors! Nodemon should restart the application if needed!")
-                msg.edit(':white_check_mark: Successfully updated EliteSelfBot!').then(m => m.delete(2000));
-            }
-        })
+        updateBot(msg).then(() => {
+            msg.edit(':white_check_mark: Successfully updated EliteSelfBot!').then(m => m.delete(2000));
+        }).catch((err) => {
+            msg.edit(':no_entry_sign: Error occurred while trying to update!').then(m => m.delete(2000));
+        });
 
     } else {
         var maybe = didYouMean(command, Object.keys(commands), {
@@ -115,4 +111,21 @@ function loadPlugins() {
         }
         commands[command.info.name] = command;
     });
+}
+
+function updateBot(msg) {
+
+    return new Promise(function (resolve, reject) {
+        console.info("Checking for update...");
+
+        simpleGit.pull("https://github.com/XeliteXirish/EliteSelfBot.git", function (err, response) {
+            if (err){
+                console.error("Looks like an error occured while updating! Please contact XeltieXirish!");
+                reject(err);
+            }else {
+                console.info("Looks like there was no errors! Nodemon should restart the application if needed!")
+                resolve();
+            }
+        })
+    })
 }
