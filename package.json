@@ -4,7 +4,7 @@
   "description": "An awesome discord self bot written using the discord.js library!",
   "main": "bot.js",
   "scripts": {
-    "start": "npm install && nodemon src/bot"
+    "start": "nodemon src/bot"
   },
   "keywords": [
     "self",
@@ -25,6 +25,11 @@
     "request": "latest",
     "simple-git": "^1.65.0",
     "sqlite": "^2.3.0",
-    "yargs": "^6.6.0"
+    "yargs": "^6.6.0",
+    "auto-updater": "latest"
+  },
+  "auto-updater":{
+    "repo":"/XeltieXirish/EliteSelfBot",
+    "branch":"master"
   }
 }

@@ -3,6 +3,7 @@ const fs = require('fs');
 const nodemon = require('nodemon');
 const chalk = require('chalk');
 const didYouMean = require('didyoumean2');
+const AutoUpdater = require('auto-updater');
 const simpleGit = require('simple-git')( __dirname + "/../");
 
 const bot = exports.client = new Discord.Client();
@@ -12,6 +13,16 @@ const utils = require('./utils');
 
 const commands = bot.commands = {};
 const needsSetup = bot.setupPlugins = [];
+
+const autoUpdater = new AutoUpdater({
+    pathToJson: 'package.json',
+    autoupdate: true,
+    checkgit: true,
+    jsonhost: 'https://raw.githubusercontent.com/XeliteXirish/EliteSelfBot/1.2.1/package.json',
+    contenthost: 'http://url.shaunoneill.com/eliteselfbot',
+    progressDebounce: 0,
+    devmode: false
+})
 
 const db = bot.db = require('sqlite');
 db.open('./selfbot.sqlite');
@@ -77,11 +88,16 @@ bot.on('message', msg => {
 
     }else if (command == 'update'){
         msg.edit(":arrows_counterclockwise: Checking for an update..");
-        updateBot(msg).then(() => {
+
+
+        // Start checking
+        autoUpdater.fire('check')
+
+            /*.then(() => {
             msg.edit(':white_check_mark: Successfully updated EliteSelfBot!').then(m => m.delete(2000));
         }).catch((err) => {
             msg.edit(':no_entry_sign: Error occurred while trying to update!').then(m => m.delete(2000));
-        });
+        });;*/
 
     } else {
         var maybe = didYouMean(command, Object.keys(commands), {
@@ -125,19 +141,37 @@ function loadPlugins() {
     });
 }
 
-function updateBot(msg) {
+autoUpdater.on('git-clone', function() {
+    console.log("You have a clone of the repository. Use 'git pull' to be up-to-date");
+});
+autoUpdater.on('check.up-to-date', function(v) {
+    console.info("You have the latest version: " + v);
+});
+autoUpdater.on('check.out-dated', function(v_old, v) {
+    console.warn("Your version is outdated. " + v_old + " of " + v);
+    autoUpdater.fire('download-update');
+});
+autoUpdater.on('update.downloaded', function() {
+    console.log("Update downloaded and ready for install");
+});
+autoUpdater.on('update.not-installed', function() {
+    console.log("The Update was already in your folder! It's read for install");
+});
+autoUpdater.on('update.extracted', function() {
+    console.log("Update extracted successfully!");
+    console.warn("RESTART THE APP!");
+});
+autoUpdater.on('download.error', function(err) {
+    console.error("Error when downloading: " + err);
+});
+autoUpdater.on('end', function() {
+    console.log("The app is ready to function");
+});
+autoUpdater.on('error', function(name, e) {
+    console.error(name, e);
+});
 
-    return new Promise(function (resolve, reject) {
-        console.info("Checking for update...");
+// Start checking
+autoUpdater.fire('check');
 
-        simpleGit.pull("https://github.com/XeliteXirish/EliteSelfBot.git", function (err, response) {
-            if (err){
-                console.error("Looks like an error occured while updating! Please contact XeltieXirish!");
-                reject(err);
-            }else {
-                console.info("Looks like there was no errors! Nodemon should restart the application if needed!")
-                resolve();
-            }
-        })
-    })
-}
+
