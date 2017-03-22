@@ -37,3 +37,6 @@ npm start
 
 If you need help, you can open up an issue [here](https://github.com/XeliteXirish/EliteSelfBot/issues), but be sure to paste any error logs that you get!
 
+##Credits
+The bot was created based on [Rayzr522's selfbot](https://github.com/Rayzr522) (un-knowningly xD) :D Check it out!
+
