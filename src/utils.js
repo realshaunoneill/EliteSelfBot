@@ -1,3 +1,4 @@
+const requestify = require('requestify');
 const bot = require('./bot');
 const RichEmbed = require('discord.js').RichEmbed;
 
@@ -10,12 +11,18 @@ exports.randomColor = function () {
 };
 
 exports.randomFooter = function () {
-    return exports.randomSelection(
-        'I fix memory leaks by restarting!',
-        'Kai: Im a grumpy old man',
-        'I do all my bots in piethawn',
-        'CSS and vb are the best, not this Jshit crap'
-    );
+
+    requestify.get(`https://raw.githubusercontent.com/XeliteXirish/EliteSelfBot/master/src/quotes.json`).then(res => {
+        try {
+            let quotes = JSON.parse(res.body);
+            return exports.randomSelection(quotes);
+
+        }catch (err){
+            console.error(`Error trying to parse quotes from JSON! Error: ${err.stack}`);
+        }
+    }).catch(err => {
+        return `I failed fetching online quotes #rip`;
+    });
 };
 
 exports.embed = (title, description = '', fields = [], options = {}) => {
