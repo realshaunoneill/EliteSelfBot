@@ -13,6 +13,7 @@ exports.run = function (bot, msg, args) {
     }
 
     let messageId = args[0];
+    console.log(messageId)
 
     let message = msg.channel.fetchMessages({around: messageId, limit: 1}).then(function (messages) {
 
