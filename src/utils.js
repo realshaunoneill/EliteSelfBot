@@ -9,7 +9,7 @@ exports.randomColor = function () {
     return [Math.floor(Math.random() * 256), Math.floor(Math.random() * 256), Math.floor(Math.random() * 256)];
 };
 
-const randomFooter = function () {
+exports.randomFooter = function () {
     return exports.randomSelection(
         'I fix memory leaks by restarting!',
         'Kai: Im a grumpy old man',
@@ -33,7 +33,7 @@ exports.embed = (title, description = '', fields = [], options = {}) => {
         .setDescription(description)
         .setImage(options.image || url)
         .setTimestamp(options.timestamp ? new Date() : null)
-        .setFooter(footer ? randomFooter() : '', footer ? bot.client.user.avatarURL : undefined);
+        .setFooter(footer ? exports.randomFooter() : '', footer ? bot.client.user.avatarURL : undefined);
 };
 
 exports.getSimpleEmbed = function (title, description, colour, footer) {
