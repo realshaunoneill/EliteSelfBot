@@ -1,5 +1,11 @@
-const got = require('got');
+const requestify = require('requestify');
 const utils = require('../utils');
+
+exports.info = {
+    name: 'github',
+    usage: 'github user/repo',
+    description: 'Links to a GitHub repository'
+};
 
 exports.run = function (bot, msg, args) {
     if (args.length < 1) {
@@ -46,6 +52,26 @@ exports.run = function (bot, msg, args) {
             }
         });
 
+        requestify.get(`https://api.github.com/search/repositories?q=${args.join('+')}`).then(response => {
+            let res = JSON.parse(response.body);
+
+            if (res.total_count < 1){
+                msg.edit(`:sob: No results found for '${args.join(' ')}'`).then(m => m.delete(2000));
+                return;
+            }
+
+            msg.delete(1);
+            msg.channel.sendMessage(':white_check_mark: Top 3 results:');
+
+            for (let i = 0; i < 3; i++) {
+                if (!res.items[i]) {
+                    break;
+                }
+                let item = res.items[i];
+                msg.channel.sendEmbed(utils.getSimpleEmbed('', getInfo(item)));
+            }
+        })
+
     }
 
 };
@@ -70,9 +96,3 @@ function getInfo(json) {
 \tDo \`git clone ${json.clone_url}\` to clone this repository
 `;
 }
-
-exports.info = {
-    name: 'github',
-    usage: 'github user/repo',
-    description: 'Links to a GitHub repository'
-};

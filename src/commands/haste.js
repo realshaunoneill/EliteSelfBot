@@ -1,19 +1,29 @@
 const got = require('got');
+const requestify = require('requestify');
 const url = require('url');
 
-exports.run = (bot, msg, args) => {
-    var raw = false;
-    if (args[0] === '-r' || args[0] === '--raw') {
+exports.info = {
+    name: 'haste',
+    usage: 'haste [-r|--raw] [text]',
+    description: 'Uploads some text to Hastebin'
+};
+
+exports.run = function (bot, msg, args) {
+    let raw = false;
+
+    if (args[0] === '-r' || args[0] === '--raw'){
         raw = true;
         args = args.splice(1);
     }
-    if (args.length < 1) {
-        msg.edit(':no_entry_sign: You must have something to upload!').then(m => m.delete(2000));
+
+    if (args.length < 1){
+        msg.edit(`:no_entry_sign: You must have something to upload!`).then(m => m.delete(2000));
         return;
     }
 
     msg.edit(':arrows_counterclockwise: Uploading...').then(m => {
-        got.post(url.resolve('https://hastebin.com', 'documents'), {
+
+        requestify.post(url.resolve('https://hastebin.com', 'documents'), {
             body: args.join(' '),
             json: true,
             headers: {
@@ -34,10 +44,4 @@ exports.run = (bot, msg, args) => {
             m.edit(`:no_entry_sign: Failed to upload: ${err}`).then(m => m.delete(5000));
         });
     });
-};
-
-exports.info = {
-    name: 'haste',
-    usage: 'haste [-r|--raw] <text>',
-    description: 'Uploads some text to Hastebin'
 };

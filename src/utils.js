@@ -36,6 +36,15 @@ exports.embed = (title, description = '', fields = [], options = {}) => {
         .setFooter(footer ? randomFooter() : '', footer ? bot.client.user.avatarURL : undefined);
 };
 
+exports.getSimpleEmbed = function (title, description, colour, footer) {
+    return new RichEmbed()
+        .setTitle(title)
+        .setDescription(description)
+        .setColor(colour || exports.randomColor())
+        .setFooter(footer || exports.randomFooter());
+
+}
+
 exports.multiSend = function (channel, messages, delay) {
     delay = delay || 100;
     messages.forEach((m, i) => {

@@ -7,10 +7,7 @@ exports.run = function (bot, msg, args) {
     }
 
     msg.editEmbed(
-        utils.embed(bot.user.username, args.join(' '), [], {
-            footer: false, url: "https://www.shaunoneill.me/",
-            thumbnail: bot.user.avatarURL
-        })
+        utils.getSimpleEmbed(bot.user.username, args.join(' ')).setFooter('[Created by XeliteXirish!]', 'https://www.shaunoneill.com/assets/logo.png')
     );
 };
 
