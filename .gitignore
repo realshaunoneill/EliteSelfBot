@@ -5,4 +5,4 @@ node_modules/
 
 src/config.json
 selfbot.sqlite
-selfbot.sqlite
+/config.json
