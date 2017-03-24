@@ -57,6 +57,9 @@ bot.on('message', msg => {
         console.log(`[MENTION] ${msg.author.username} (${msg.author.id}) on ${msg.guild.name}/${msg.channel.name}:\n${msg.content}`);
     }
 
+    if (msg.author.id !== bot.user.id) {
+        return;
+    }
     if (!msg.content.startsWith(config.prefix)) return;
 
     let command = msg.content.split(' ')[0].substr(config.prefix.length);
