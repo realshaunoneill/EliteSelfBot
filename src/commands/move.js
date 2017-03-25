@@ -12,6 +12,13 @@ exports.run = function (bot, msg, args) {
         return msg.channel.sendMessage(':no_entry_sign: You must enter something to search for!');
     }
 
+    let staffOnly = false;
+    args.forEach(arg => {
+        if (arg == '-s' || arg == '-staff'){
+            staffOnly = true;
+        }
+    });
+
     let channelId = args[0];
     let moveChannel = msg.guild.channels.get(channelId);
 
@@ -26,6 +33,12 @@ exports.run = function (bot, msg, args) {
     }
 
     userChannel.members.array().forEach(member => {
+        if (staffOnly){
+            if (!member.roles.exists('name', 'Staff' || !member.roles.exists('name', 'staff'))){
+                return;
+            }
+        }
+
         member.setVoiceChannel(moveChannel).catch(err => {
             console.error(`Error moving member into that channel, Error: ${err.stack}`);
             msg.reply(`Unable to move ${member.user.username} into that channel!`);
