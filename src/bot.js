@@ -9,6 +9,7 @@ const {exec} = require('child_process');
 const bot = exports.client = new Discord.Client();
 const botSettings = bot.botSettings = require('./botSettings.json');
 const utils = require('./utils');
+let config = bot.config = require('../config.json')
 
 const commands = bot.commands = {};
 const needsSetup = bot.setupPlugins = [];
@@ -52,6 +53,7 @@ bot.on('message', msg => {
     if (msg.author.id !== bot.user.id) {
         return;
     }
+
     if (!msg.content.startsWith(config.prefix)) return;
 
     let command = msg.content.split(' ')[0].substr(config.prefix.length);
@@ -129,7 +131,7 @@ function checkSetup() {
             config.botToken = args;
 
             rl.question(prompt('Please enter your bot prefix: '), function (args) {
-                config.botPrefix = args;
+                config.prefix = args;
 
                 rl.close();
 
@@ -144,7 +146,7 @@ function checkSetup() {
         })
 
     } else {
-        const config = bot.config = require('../config.json');
+        config = bot.config = require('../config.json');
         bot.login(config.botToken);
 
     }
