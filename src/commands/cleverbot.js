@@ -21,7 +21,10 @@ exports.setup = function (bot) {
 }
 
 exports.run = function (bot, msg, args) {
-    if (!enableCleverBot && !cleverBot) return;
+    if (!enableCleverBot && !cleverBot){
+        msg.edit(`:no_entry_sign: CleverBot api details havn't been set yet!`).then(m => m.delete(2000));
+        return;
+    }
 
     if (args.length < 1) {
         msg.edit(':no_entry_sign: You must specify some text!').then(m => m.delete(2000));
