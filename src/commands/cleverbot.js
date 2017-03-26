@@ -10,13 +10,13 @@ exports.info = {
 };
 
 exports.setup = function (bot) {
-    if (!bot.config.cleverBot_API_USER && !bot.config.cleverBot_API_KEY){
+    if (!bot.botSettings.cleverBot_API_USER && !bot.botSettings.cleverBot_API_KEY){
         console.log("CleverBot API keys are not set, disabling feature");
         enableCleverBot = false;
         return;
     }
     const cleverbot = require('cleverbot.io');
-    cleverBot = new cleverbot(bot.config.cleverBot_API_USER, bot.config.cleverBot_API_KEY);
+    cleverBot = new cleverbot(bot.botSettings.cleverBot_API_USER, bot.botSettings.cleverBot_API_KEY);
     cleverBot.create();
 }
 
@@ -38,7 +38,6 @@ exports.run = function (bot, msg, args) {
             return;
         }
 
-        console.log(JSON.stringify(res))
         let embed = utils.getSimpleEmbed('', res, utils.randomColor()).setAuthor('Clever Bot', 'http://img.shaunoneill.com/images/2017/03/26/opera_2017-03-26_17-58-34.png').setFooter(utils.randomFooter());
         msg.channel.sendEmbed(embed).then(msg => {
             msg.react('👌');
