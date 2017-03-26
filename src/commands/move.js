@@ -42,6 +42,8 @@ exports.run = function (bot, msg, args) {
         member.setVoiceChannel(moveChannel).catch(err => {
             console.error(`Error moving member into that channel, Error: ${err.stack}`);
             msg.reply(`Unable to move ${member.user.username} into that channel!`);
-        })
+        });
+
+        msg.delete();
     })
 };
