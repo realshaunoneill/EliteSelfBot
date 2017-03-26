@@ -127,11 +127,9 @@ function checkSetup() {
         console.log(`\nYou are creating a config for EliteSelf bot version ${botSettings.version}!`);
         rl.question(prompt('Please enter your bot token: '), function (args) {
             config.botToken = args;
-            console.log(args);
 
             rl.question(prompt('Please enter your bot prefix: '), function (args) {
                 config.botPrefix = args;
-                console.log(config);
 
                 rl.close();
 
