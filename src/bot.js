@@ -143,9 +143,7 @@ function checkSetup() {
             })
         })
 
-
     } else {
-        console.log('Config exists!');
         const config = bot.config = require('../config.json');
         bot.login(config.botToken);
 
