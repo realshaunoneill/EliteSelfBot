@@ -3,29 +3,21 @@ const fs = require('fs');
 const nodemon = require('nodemon');
 const chalk = require('chalk');
 const didYouMean = require('didyoumean2');
-const AutoUpdater = require('auto-updater');
-const simpleGit = require('simple-git')( __dirname + "/../");
+const readline = require('readline');
+const {exec} = require('child_process');
 
 const bot = exports.client = new Discord.Client();
-const config = bot.config = require('./config.json');
 const botSettings = bot.botSettings = require('./botSettings.json');
 const utils = require('./utils');
 
 const commands = bot.commands = {};
 const needsSetup = bot.setupPlugins = [];
 
-const autoUpdater = new AutoUpdater({
-    pathToJson: 'package.json',
-    autoupdate: true,
-    checkgit: true,
-    jsonhost: 'https://raw.githubusercontent.com/XeliteXirish/EliteSelfBot/1.2.1/package.json',
-    contenthost: 'http://url.shaunoneill.com/eliteselfbot',
-    progressDebounce: 0,
-    devmode: false
-})
-
 const db = bot.db = require('sqlite');
 db.open('./selfbot.sqlite');
+
+// Run before the events and the bot is logged in
+checkSetup();
 
 bot.on('ready', () => {
 
@@ -46,14 +38,14 @@ bot.on('ready', () => {
     }, 43200000)
 
     needsSetup.forEach((plugin) => {
-        if (typeof plugin.setup === 'function'){
+        if (typeof plugin.setup === 'function') {
             plugin.setup(bot);
         }
     })
 });
 
 bot.on('message', msg => {
-    if (msg.isMentioned(bot.user.id)){
+    if (msg.isMentioned(bot.user.id)) {
         console.log(`[MENTION] ${msg.author.username} (${msg.author.id}) on ${msg.guild.name}/${msg.channel.name}:\n${msg.content}`);
     }
 
@@ -77,25 +69,16 @@ bot.on('message', msg => {
             console.error(e);
         }
 
-    }else if (command == 'reload') {
+    } else if (command == 'reload') {
         loadPlugins();
 
         msg.edit('', {
             embed: utils.embed('Reload', `Successfully reloaded all the plugins!`)
         }).then(m => m.delete(10000));
 
-    }else if (command == 'update'){
+    } else if (command == 'update') {
         msg.edit(":arrows_counterclockwise: Checking for an update..");
-
-
-        // Start checking
-        autoUpdater.fire('check')
-
-            /*.then(() => {
-            msg.edit(':white_check_mark: Successfully updated EliteSelfBot!').then(m => m.delete(2000));
-        }).catch((err) => {
-            msg.edit(':no_entry_sign: Error occurred while trying to update!').then(m => m.delete(2000));
-        });;*/
+        exec('npm update');
 
     } else {
         var maybe = didYouMean(command, Object.keys(commands), {
@@ -112,15 +95,9 @@ bot.on('message', msg => {
     }
 });
 
-bot.login(config.botToken);
-
 process.on('uncaughtException', (err) => {
     let errorMsg = err.stack.replace(new RegExp(`${__dirname}\/`, 'g'), './');
     console.error("Uncaught Exception" + errorMsg);
-});
-
-process.on('unhandledRejection', err => {
-    console.error('Uncaught Promise Error: \n' + err.stack);
 });
 
 function loadPlugins() {
@@ -133,43 +110,48 @@ function loadPlugins() {
         }
         commands[command.info.name] = command;
 
-        if (typeof command.setup === 'function'){
+        if (typeof command.setup === 'function') {
             needsSetup.push(command);
         }
     });
 }
 
-autoUpdater.on('git-clone', function() {
-    console.log("You have a clone of the repository. Use 'git pull' to be up-to-date");
-});
-autoUpdater.on('check.up-to-date', function(v) {
-    console.info("You have the latest version: " + v);
-});
-autoUpdater.on('check.out-dated', function(v_old, v) {
-    console.warn("Your version is outdated. " + v_old + " of " + v);
-    autoUpdater.fire('download-update');
-});
-autoUpdater.on('update.downloaded', function() {
-    console.log("Update downloaded and ready for install");
-});
-autoUpdater.on('update.not-installed', function() {
-    console.log("The Update was already in your folder! It's read for install");
-});
-autoUpdater.on('update.extracted', function() {
-    console.log("Update extracted successfully!");
-    console.warn("RESTART THE APP!");
-});
-autoUpdater.on('download.error', function(err) {
-    console.error("Error when downloading: " + err);
-});
-autoUpdater.on('end', function() {
-    console.log("The app is ready to function");
-});
-autoUpdater.on('error', function(name, e) {
-    console.error(name, e);
-});
+function checkSetup() {
 
-// Start checking
-autoUpdater.fire('check');
+    if (!fs.existsSync('./config.json')) {
+
+        let prompt = chalk.bold.magenta;
+        let config = {};
+        let rl = readline.createInterface(process.stdin, process.stdout);
+
+        console.log(`\nYou are creating a config for EliteSelf bot version ${botSettings.version}!`);
+        rl.question(prompt('Please enter your bot token: '), function (args) {
+            config.botToken = args;
+            console.log(args);
+
+            rl.question(prompt('Please enter your bot prefix: '), function (args) {
+                config.botPrefix = args;
+                console.log(config);
+
+                rl.close();
+
+                console.info('Creating config file with token...');
+
+                let json = JSON.stringify(config);
+                fs.writeFile('./config.json', json, 'utf8', () => {
+                    console.info('Successfully created the config file! Starting bot...');
+                    checkSetup();
+                });
+            })
+        })
+
+
+    } else {
+        console.log('Config exists!');
+        const config = bot.config = require('../config.json');
+        bot.login(config.botToken);
+
+    }
+}
 
 

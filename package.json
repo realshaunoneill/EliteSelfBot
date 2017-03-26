@@ -1,10 +1,14 @@
 {
   "name": "eliteselfbot",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "An awesome discord self bot written using the discord.js library!",
   "main": "bot.js",
   "scripts": {
     "start": "nodemon src/bot"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/XeliteXirish/EliteSelfBot"
   },
   "keywords": [
     "self",
@@ -25,12 +29,14 @@
     "nodemon": "^1.11.0",
     "request": "latest",
     "requestify": "^0.2.5",
-    "simple-git": "^1.65.0",
     "sqlite": "^2.3.0",
     "yargs": "^6.6.0"
   },
   "auto-updater": {
     "repo": "/XeltieXirish/EliteSelfBot",
     "branch": "master"
+  },
+  "bin": {
+    "eliteselfbot": "./src/bot.js"
   }
 }
