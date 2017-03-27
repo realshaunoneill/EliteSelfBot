@@ -11,6 +11,11 @@ exports.info = {
 
 const urlRegex =/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
 
+String.prototype.replaceAll = function (search, replacement) {
+    var target = this;
+    return target.replace(new RegExp(search, 'g'), replacement);
+};
+
 exports.run = function (bot, msg, args) {
 
     try {
@@ -48,6 +53,8 @@ exports.run = function (bot, msg, args) {
             })
 
         }
+    }catch (err){
+        console.error(`Error trying to find redirects of a url, Error: ${err.stack}`);
     }
 };
 

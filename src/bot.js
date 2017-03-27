@@ -9,7 +9,8 @@ const {exec} = require('child_process');
 const bot = exports.client = new Discord.Client();
 const botSettings = bot.botSettings = require('./botSettings.json');
 const utils = require('./utils');
-let config = bot.config = require('../config.json')
+const mute = require('./commands/mute');
+let config = bot.config = require('../config.json');
 
 const commands = bot.commands = {};
 const needsSetup = bot.setupPlugins = [];
@@ -49,6 +50,8 @@ bot.on('message', msg => {
     if (msg.isMentioned(bot.user.id)) {
         console.log(`[MENTION] ${msg.author.username} (${msg.author.id}) on ${msg.guild.name}/${msg.channel.name}:\n${msg.content}`);
     }
+
+    mute.onMessage(msg);
 
     if (msg.author.id !== bot.user.id) {
         return;
