@@ -21,7 +21,7 @@ exports.run = function (bot, msg, args) {
     }
 
     bot.user.setStatus(status).then(u => {
-        msg.edit(`Status has been changed to ${status}`).then(m => {m.delete(2000)})
+        msg.edit(`:white_check_mark: Status has been changed to ${status}`).then(m => {m.delete(2000)})
     }).catch(err => {
         console.error(`Error while changing the bot status, Error: ${err.stack}`)
     })
