@@ -105,6 +105,10 @@ process.on('uncaughtException', (err) => {
     console.error("Uncaught Exception" + errorMsg);
 });
 
+process.on("unhandledRejection", err => {
+    console.error("Uncaught Promise Error", err.stack);
+});
+
 function loadPlugins() {
     fs.readdirSync(__dirname + '/commands/').forEach(file => {
         if (file.startsWith('_') || !file.endsWith('.js')) return;
