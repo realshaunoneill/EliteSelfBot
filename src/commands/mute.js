@@ -85,9 +85,9 @@ exports.onMessage = function (msg) {
   })
 };
 
-function showHelp(bot, msg, args) {
+async function showHelp(bot, msg, args) {
 
-    let embed = utils.getSimpleEmbed('Muted List Help', 'Here is some documentation for the help commands!', utils.randomColor(), utils.randomFooter());
+    let embed = utils.getSimpleEmbed('Muted List Help', 'Here is some documentation for the help commands!', utils.randomColor(), await utils.randomFooter());
     embed.addField(possibleArgs[0], 'This command allows you to add a user to the list, deleting all their messages from chat!');
     embed.addField(possibleArgs[1], 'This command allows you to remove a user to the list, stopping their messages from being deleted!');
     embed.addField(possibleArgs[2], 'This command allows you to list out the current muted list!');

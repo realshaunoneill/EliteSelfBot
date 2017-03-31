@@ -11,19 +11,29 @@ exports.randomColor = function () {
 };
 
 exports.randomFooter = function () {
+    let footers = [];
 
-    requestify.get(`https://raw.githubusercontent.com/XeliteXirish/EliteSelfBot/master/src/quotes.json`).then(res => {
-        try {
-            let quotes = JSON.parse(res.body);
+    if (footers.length == 0) {
+        requestify.get(`https://raw.githubusercontent.com/XeliteXirish/EliteSelfBot/master/src/quotes.json`).then(res => {
+            try {
+                let quotes = JSON.parse(res.body).quotes;
 
-            return exports.randomSelection(quotes.quotes);
+                quotes.forEach(quote => {
+                    footers.push(quote);
+                })
 
-        }catch (err){
-            console.error(`Error trying to parse quotes from JSON! Error: ${err.stack}`);
-        }
-    }).catch(err => {
-        return `I failed fetching online quotes #rip`;
-    });
+
+            } catch (err) {
+                console.error(`Error trying to parse quotes from JSON! Error: ${err.stack}`);
+            }
+        }).catch(err => {
+            console.error(`I failed fetching online quotes #rip, Error ${err.stack}`);
+        });
+        return 'Il have some awesome footers for you next time bae!';
+
+    }else{
+        return exports.randomSelection(footers);
+    }
 };
 
 exports.embed = (title, description = '', fields = [], options = {}) => {
