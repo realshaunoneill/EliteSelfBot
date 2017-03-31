@@ -16,7 +16,7 @@ exports.run = function (bot, msg, args) {
         }
 
         msg.edit('', {
-            embed: utils.embed('Commands', 'This message will dissappear in 30 seconds.', fields, { inline: true }).setFooter(`Version: ${bot.botSettings.version} - Created by XeliteXirish!`)
+            embed: utils.embed('Commands', 'This message will dissappear in 30 seconds.', fields, { inline: true }).setFooter(`Version: ${bot.botSettings.version} - Created by XeliteXirish!`, 'https://www.shaunoneill.com/assets/logo.png')
         }).then(m => m.delete(30000));
 
         return;
