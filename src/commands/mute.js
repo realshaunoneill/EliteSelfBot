@@ -62,7 +62,7 @@ exports.run = function (bot, msg, args) {
 
         if (mutedMembers.length > 0) {
 
-            let embed = utils.getSimpleEmbed("Muted Users", 'Theres users get their messages deleted when they talk! Be warned!', utils.randomColor(), utils.randomFooter());
+            let embed = utils.getSimpleEmbed("Muted Users", 'These users get their messages deleted when they talk! Be warned!', utils.randomColor(), utils.randomFooter());
             mutedMembers.forEach(member => {
                 embed.addField(member.username, member.id, true);
             });

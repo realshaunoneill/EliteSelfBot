@@ -4,7 +4,7 @@
   "description": "An awesome discord self bot written using the discord.js library!",
   "main": "bot.js",
   "scripts": {
-    "start": "nodemon src/bot"
+    "start": "nodemon --ignore 'data/*' src/bot"
   },
   "repository": {
     "type": "git",
