@@ -2,8 +2,8 @@ const requestify = require('requestify');
 const bot = require('./bot');
 const RichEmbed = require('discord.js').RichEmbed;
 
-exports.randomSelection = function () {
-    return String(arguments[Math.floor(Math.random() * arguments.length)]);
+exports.randomSelection = function (array) {
+    return array[Math.floor(Math.random() * array.length)]
 };
 
 exports.randomColor = function () {
@@ -15,7 +15,8 @@ exports.randomFooter = function () {
     requestify.get(`https://raw.githubusercontent.com/XeliteXirish/EliteSelfBot/master/src/quotes.json`).then(res => {
         try {
             let quotes = JSON.parse(res.body);
-            return exports.randomSelection(quotes);
+
+            return exports.randomSelection(quotes.quotes);
 
         }catch (err){
             console.error(`Error trying to parse quotes from JSON! Error: ${err.stack}`);
