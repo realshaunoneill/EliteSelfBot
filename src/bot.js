@@ -127,7 +127,7 @@ function loadPlugins() {
 
 function checkSetup() {
 
-    if (!fs.existsSync('./config.json')) {
+    if (!fs.existsSync('./../config.json')) {
 
         let prompt = chalk.bold.magenta;
         let config = {};
@@ -145,7 +145,7 @@ function checkSetup() {
                 console.info('Creating config file with token...');
 
                 let json = JSON.stringify(config);
-                fs.writeFile('./config.json', json, 'utf8', () => {
+                fs.writeFile('./../config.json', json, 'utf8', () => {
                     console.info('Successfully created the config file! Starting bot...');
                     checkSetup();
                 });

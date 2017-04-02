@@ -19,7 +19,7 @@ exports.run = function (bot, msg, args) {
         }
     });
 
-    let channelId = args[0];
+    let channelId = args[args.length - 1];
     let moveChannel = msg.guild.channels.get(channelId);
 
     if (!moveChannel || moveChannel.type !== 'voice') {
@@ -33,16 +33,21 @@ exports.run = function (bot, msg, args) {
     }
 
     userChannel.members.array().forEach(member => {
-        if (staffOnly){
-            if (!member.roles.exists('name', 'Staff' || !member.roles.exists('name', 'staff'))){
-                return;
-            }
-        }
 
-        member.setVoiceChannel(moveChannel).catch(err => {
-            console.error(`Error moving member into that channel, Error: ${err.stack}`);
-            msg.reply(`Unable to move ${member.user.username} into that channel!`);
-        });
+        if (staffOnly){
+            if (member.roles.exists('name', 'Staff' || member.roles.exists('name', 'staff'))){
+                member.setVoiceChannel(moveChannel).catch(err => {
+                    console.error(`Error moving member into that channel, Error: ${err.stack}`);
+                    msg.reply(`Unable to move ${member.user.username} into that channel!`);
+                });
+            }
+        }else {
+
+            member.setVoiceChannel(moveChannel).catch(err => {
+                console.error(`Error moving member into that channel, Error: ${err.stack}`);
+                msg.reply(`Unable to move ${member.user.username} into that channel!`);
+            });
+        }
 
         msg.delete();
     })
