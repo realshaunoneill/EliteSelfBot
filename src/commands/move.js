@@ -22,7 +22,7 @@ exports.run = function (bot, msg, args) {
     let channelId = args[0];
     let moveChannel = msg.guild.channels.get(channelId);
 
-    if (!moveChannel && moveChannel.type !== 'voice') {
+    if (!moveChannel || moveChannel.type !== 'voice') {
         return msg.reply(':no_entry_sign: The move-to channel must be a voice channel!');
     }
 
