@@ -32,13 +32,6 @@ bot.on('ready', () => {
 
     console.log(chalk.green('\u2713') + ' Bot loaded');
 
-    setInterval(function () {
-        console.log("Automatically checking for updates!")
-        updateBot().catch((err) => {
-            console.error("Error while updating bot, please submit an error report, Error: " + err.stack);
-        });
-    }, 43200000)
-
     needsSetup.forEach((plugin) => {
         if (typeof plugin.setup === 'function') {
             plugin.setup(bot);
