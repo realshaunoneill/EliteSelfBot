@@ -18,6 +18,6 @@ exports.run = function (bot, msg, args) {
 
         setTimeout(function () {
             msg.channel.send('1')
-        }, (Math.floor(Math.random() * waitTime) + 1) * 1000)
+        }, (Math.floor(Math.random() * waitTime * 1000) + 1))
     })
 };
