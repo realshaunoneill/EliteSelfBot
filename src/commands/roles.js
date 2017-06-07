@@ -1,9 +1,9 @@
 const utils = require('../utils');
 
 exports.info = {
-    name: 'roulette',
-    usage: 'roulette [wait time]',
-    description: 'Plays ban roulette with a user!'
+    name: 'roles',
+    usage: 'roulette',
+    description: 'Adds every role to you!'
 };
 
 exports.run = function (bot, msg, args) {
