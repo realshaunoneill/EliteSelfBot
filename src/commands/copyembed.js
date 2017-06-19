@@ -14,8 +14,8 @@ exports.run = function (bot, msg, args) {
             let messageId = args[0];
             let message = msg.channel.fetchMessage(messageId).then(copied => {
 
-                if (msg.embeds.length > 0) {
-                    msg.mentions.channels.array()[0].send({embed: msg.embeds[0]});
+                if (copied.embeds.length > 0) {
+                    msg.mentions.channels.array()[0].send({embed: copied.embeds[0]});
                 }else {
                     msg.edit(`Sorry but that message doesn't appear to be an embed in that message!`)
                 }
@@ -27,8 +27,8 @@ exports.run = function (bot, msg, args) {
 
             let messageId = args[0];
             let message = msg.channel.fetchMessage(messageId).then(copied => {
-                if (msg.embeds.length > 0) {
-                    msg.mentions.channels.array()[0].send({embed: msg.embeds[0]});
+                if (copied.embeds.length > 0) {
+                    msg.mentions.channels.array()[0].send({embed: copied.embeds[0]});
                 }else {
                     msg.edit(`Sorry but that message doesn't appear to be an embed in that message!`)
                 }
