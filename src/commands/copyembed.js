@@ -12,6 +12,7 @@ exports.run = function (bot, msg, args) {
 
         if (msg.mentions.channels.array().length > 0) {
             let messageId = args[0];
+
             let message = msg.channel.fetchMessage(messageId).then(copied => {
 
                 if (copied.embeds.length > 0) {
@@ -26,6 +27,7 @@ exports.run = function (bot, msg, args) {
         } else {
 
             let messageId = args[0];
+
             let message = msg.channel.fetchMessage(messageId).then(copied => {
                 if (copied.embeds.length > 0) {
                     msg.mentions.channels.array()[0].send({embed: copied.embeds[0]});
@@ -33,6 +35,7 @@ exports.run = function (bot, msg, args) {
                     msg.edit(`Sorry but that message doesn't appear to be an embed in that message!`)
                 }
             }).catch(err => {
+
                 msg.edit(`Unable to find a message with that id in this channel!`)
             })
         }
