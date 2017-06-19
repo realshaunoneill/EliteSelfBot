@@ -13,7 +13,12 @@ exports.run = function (bot, msg, args) {
         if (msg.mentions.channels.array().length > 0) {
             let messageId = args[0];
             let message = msg.channel.fetchMessage(messageId).then(copied => {
-                msg.mentions.channels.array()[0].send({embed: copied});
+
+                if (msg.embeds.length > 0) {
+                    msg.mentions.channels.array()[0].send({embed: msg.embeds[0]});
+                }else {
+                    msg.edit(`Sorry but that message doesn't appear to be an embed in that message!`)
+                }
             }).catch(err => {
                 msg.edit(`Unable to find a message with that id in this channel!`)
             })
@@ -22,12 +27,16 @@ exports.run = function (bot, msg, args) {
 
             let messageId = args[0];
             let message = msg.channel.fetchMessage(messageId).then(copied => {
-                msg.channel.send({embed: copied});
+                if (msg.embeds.length > 0) {
+                    msg.mentions.channels.array()[0].send({embed: msg.embeds[0]});
+                }else {
+                    msg.edit(`Sorry but that message doesn't appear to be an embed in that message!`)
+                }
             }).catch(err => {
                 msg.edit(`Unable to find a message with that id in this channel!`)
             })
         }
     } else {
-        msg.edit(`There appears to be no embed in that message id!`);
+        msg.edit(`You need to specify a message id to search for an embed!`);
     }
 };
