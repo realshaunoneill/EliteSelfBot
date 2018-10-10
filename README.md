@@ -1,4 +1,4 @@
-# EliteSelfBot
+# EliteSelfBot - Currently discontinued! Awaiting available time haha
 An awesome discord self botcreated by [XeliteXirish](www.shaunoneill.com)!
 This bot is fully modulor that allows commands to be easily added.
 
